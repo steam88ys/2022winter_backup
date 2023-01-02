@@ -8,11 +8,16 @@ int solution(int price, char* grade) {
     // Write code here.
     int answer = 0;
     	
-	if(strcmp(grade, "S")==0) price*=0.95;
-    else if(strcmp(grade, "G")==0) price*=0.9;
-    else if(strcmp(grade, "V")==0) price*=0.85;
-    
-	answer = price;
+//	if(strcmp(grade, "S")==0) price*=0.95;
+//    else if(strcmp(grade, "G")==0) price*=0.9;
+//    else if(strcmp(grade, "V")==0) price*=0.85;
+
+	switch(grade[0]) {
+		case 'S': answer = price*0.95; break;
+		case 'G': answer = price*0.9; break;
+		case 'V': answer = price*0.85; break;
+	}
+	
     return answer;
 }
 
