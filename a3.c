@@ -1,21 +1,28 @@
+// 다음과 같이 include를 사용할 수 있습니다.
 #include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
-int main () {
-	
-	int arr1[2][3] = {{1,2,3},{4,5,6}};
-	for(int i=0; i<2; i++) {
-		for(int j=0; j<3; j++) {
-			printf("%d ", arr1[i][j]);
-		}
-		printf("\n");
+int solution(int N, int M) {
+    // 여기에 코드를 작성해주세요.
+    int answer = 0;
+    
+    for(int i=N; i<=M; i++) {
+    	if(i%2==0) answer+= (i*i);
 	}
-	
-	int arr2[2][3] = {0};
-	for(int i=0; i<2; i++) {
-		for(int j=0; j<3; j++) {
-			printf("%d ", arr2[i][j]);
-		}
-		printf("\n");
-	}
-	
+    
+    return answer;
 }
+
+// 아래는 테스트케이스 출력을 해보기 위한 main 함수입니다.
+int main() {
+    int N = 4;
+    int M = 7;
+    int ret = solution(N, M);
+
+    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+    printf("solution 함수의 반환 값은 %d 입니다.\n", ret);
+}
+
+
+
