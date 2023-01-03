@@ -1,20 +1,26 @@
 #include <stdio.h>
-#include <string.h> 
+#include <stdbool.h>
+#include <stdlib.h>
 
-int main () {
-	
-	char s1[] = "Hello";
-	printf("문자열의길이 = %d\n", strlen(s1));
-	
-	if(strcmp("Hello", s1)==0)
-		printf("Hello와 %s는 같다\n", s1);
-	else  
-		printf("Hello와 %s는 다르다\n", s1);
-		
-	if(strncmp("Hello", s1, 3)==0)
-		printf("Hello와 %s는 같다\n", s1); 
-		
-	else 
-		printf("Hello와 %s는 다르다\n", s1); 
-		 
+int solution(int floors[], int floors_len) {
+    int dist = 0;
+    for(int i = floors[0]; i<floors_len; ++i){
+        if(floors[i]>floors[i-1])
+            dist += floors[i] - floors[i-1];
+        else
+            dist += floors[i-1] - floors[i];
+    }
+    return dist;
 }
+
+// 아래는 테스트케이스 출력을 해보기 위한 main 함수입니다.
+int main() {
+    int floors[5] = {1, 2, 5, 4, 2};
+    int floors_len = 5;
+    int ret = solution(floors, floors_len);
+
+    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+    printf("solution 함수의 반환 값은 %d 입니다.\n", ret);
+}
+
+
