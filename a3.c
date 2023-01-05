@@ -1,37 +1,61 @@
-// 다음과 같이 include를 사용할 수 있습니다.
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
-int solution(int scores[], int scores_len) {
-    // 여기에 코드를 작성해주세요.
-    int answer = 0, sum=0;
-    int max = scores[0], min = scores[0];
-    
-    for(int i=0; i<scores_len; i++) {
-    	if(scores[i]>max) max = scores[i];
-    	if(scores[i]<min) min = scores[i];
-    	sum+=scores[i];
-	}
-	
-	answer = (sum-max-min)/(scores_len-2);
+char* func_a(char* bundle, int start, int n) {
+    char* answer = (char*)malloc(sizeof(char) * n);
+    for(int i=0; i<n; i++)
+        answer[i] = bundle[start+i*2];
+    return answer;
+}
+
+int* func_b(int score1, int score2) {
+    int* answer = (int*)malloc(sizeof(int) * 2);
+    if(score1 > score2) {
+        answer[0] = 1;
+        answer[1] = score1;
+    }
+    else if(score1 < score2) {
+        answer[0] = 2;
+        answer[1] = score2;
+    }
+    else {
+        answer[0] = 0;
+        answer[1] = score1;
+    }
+    return answer;
+}
+
+int func_c(char* card, int card_length) {
+    int answer = 0;
+    for(int i = 0; i < card_length; i++) {
+        answer += card[i] - 'a' + 1;
+    }
+    return answer;
+}
+
+// bundle의 길이는 항상 50입니다.
+int* solution(int n, char* bundle) {
+    char* a_cards = func_a(bundle, 0, n);
+    char* b_cards = func_a(bundle, 1, n);
+    int a_score = func_c(a_cards, n);
+    int b_score = func_c(b_cards, n);
+    int* answer = func_b(a_score, b_score);
     return answer;
 }
 
 // 아래는 테스트케이스 출력을 해보기 위한 main 함수입니다.
 int main() {
-    int scores1[10] = {35, 28, 98, 34, 20, 50, 85, 74, 71, 7};
-    int scores1_len = 10;
-    int ret1 = solution(scores1, scores1_len);
-    
+    int n = 4;
+    char* bundle = "cacdbdedccbb";    
+    int* ret = solution(n, bundle);
+
     // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    printf("solution 함수의 반환 값은 %d 입니다.\n", ret1);
-    
-    int scores2[5] = {1, 1, 1, 1, 1};
-    int scores2_len = 5;
-    int ret2 = solution(scores2, scores2_len);
-    
-    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    printf("solution 함수의 반환 값은 %d 입니다.\n", ret2);
+    printf("solution 함수의 반환 값은 {");
+    for(int i = 0; i < 2; i++){
+        if (i != 0) printf(", ");
+        printf("%d", ret[i]);
+    }
+    printf("} 입니다.\n");
 }
 
