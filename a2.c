@@ -2,58 +2,70 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-int func_a(int current_grade[], int last_grade[], int rank[], int arr_length, int max_diff_grade) {
-    int count = 0;
-    for (int i = 0; i < arr_length; i++) {
-        if (current_grade[i] >= 80 && rank[i] <= arr_length / 10)
-            count++;
-        else if (current_grade[i] >= 80 && rank[i] == 1)
-            count++;
-        else if (max_diff_grade == current_grade[i] - last_grade[i])
-            count++;
+int func_a(int passed, int non_passed) {
+    return (passed > 1 && non_passed == 0);
+}
+
+int func_b(int scores[3]) {
+    int answer = 0;
+    if(scores[0] < 40) {
+        answer++;
     }
-    return count;
-}
-
-int* func_b(int current_grade[], int arr_length) {
-    int *rank = (int*) malloc(sizeof(int) * arr_length);
-    for (int i = 0; i < arr_length; i++) 
-        rank[i] = 1;
-    for (int i = 0; i < arr_length; i++) 
-        for (int j = 0; j < arr_length; j++)
-            if (current_grade[i] < current_grade[j])
-                rank[i]++;
-    return rank;
-}
-
-int func_c(int current_grade[], int last_grade[], int arr_length) {
-    int max_diff_grade = 1;
-    for (int i = 0; i < arr_length; i++) {
-        if (max_diff_grade < current_grade[i] - last_grade[i])
-            max_diff_grade = current_grade[i] - last_grade[i];
+    if(scores[1] < 44) {
+        answer++;
     }
-    return max_diff_grade;
+    if(scores[2] < 35) {
+        answer++;
+    }
+    return answer;
 }
 
-int solution(int current_grade[], int current_grade_len, int last_grade[], int last_grade_len) {
-    int arr_length = current_grade_len;
-    int* rank = func_b(current_grade, current_grade_len);
-    int max_diff_grade = func_c(current_grade, last_grade, current_grade_len);
-    int answer = func_a(current_grade, last_grade, rank, current_grade_len, max_diff_grade);
+int func_c(int scores[3]) {
+    int answer = 0;
+    if(scores[0] >= 80) {
+        answer++;
+    }
+    if(scores[1] >= 88) {
+        answer++;
+    }
+    if(scores[2] >= 70) {
+        answer++;
+    }
+    return answer;
+}
+
+int solution(int scores[][3], int scores_len) {
+    int answer = 0;
+    for(int i = 0; i<scores_len; i++) {
+        int passed = func_c(scores[i]);
+        int non_passed = func_b(scores[i]);
+        answer += func_a(passed, non_passed);
+    }
     return answer;
 }
 
 // 아래는 테스트케이스 출력을 해보기 위한 main 함수입니다.
 int main() {
-    int current_grade[6] = {70, 100, 70, 80, 50, 95};
-    int current_grade_len = 6;
-    int last_grade[6] = {35, 65, 80, 50, 20, 60};
-    int last_grade_len = 6;
-    int ret = solution(current_grade, current_grade_len, last_grade, last_grade_len);
-
+    int scores1[2][3] = {
+        {30, 40, 100},
+        {97, 88, 95}
+    };
+    int ret1 = solution(scores1, 2);
+    
     // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    printf("solution 함수의 반환 값은 %d 입니다.\n", ret);
+    printf("solution 함수의 반환 값은 %d 입니다.\n", ret1);
+    
+    int scores2[6][3] = {
+        {90, 88, 70},
+        {85, 90, 90},
+        {100, 100, 70},
+        {30, 90, 80},
+        {40, 10, 20},
+        {83, 88, 80}
+    };
+    int ret2 = solution(scores2, 6);
+    
+    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+    printf("solution 함수의 반환 값은 %d 입니다.\n", ret2);
 }
-
-
 
