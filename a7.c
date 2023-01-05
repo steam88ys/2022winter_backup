@@ -2,37 +2,41 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-int solution(int num_apple, int num_carrot, int k) {
+int func_a(int scores1[], int scores2[], int scores_len) {
     int answer = 0;
-    if(num_apple < 3 * num_carrot)
-        answer = num_apple / 3;
-    else
-        answer = num_carrot;   
-    num_apple -= 3 * answer;
-    num_carrot -= answer;
-    
-    for(int i = 0; k - (num_apple + num_carrot + i) > 0; i++)
-        if(i % 4 == 0)
-            answer--;
+    for(int i=0; i<scores_len; i++)
+        if (answer < scores2[i] - scores1[i])
+            answer = scores2[i] - scores1[i];
     return answer;
 }
 
-// 아래는 테스트케이스 출력을 해보기 위한 main 함수입니다. main함수는 잘못된 부분이 없으니, solution함수만 수정하세요.
+int func_b(int scores1[], int scores2[], int scores_len) {
+    int answer = 0;
+    for(int i=0; i<scores_len; i++)
+        if (answer > scores2[i] - scores1[i])
+            answer = scores2[i] - scores1[i];
+    return answer;
+}
+
+int* solution(int mid_scores[], int mid_scores_len, int final_scores[], int final_scores_len) {
+    int* answer = (int*)malloc(sizeof(int) * 2);
+    answer[0] = func_a(mid_scores, final_scores, mid_scores_len);
+    answer[1] = func_b(mid_scores, final_scores, mid_scores_len);
+    return answer;
+}
+
+// 아래는 테스트케이스 출력을 해보기 위한 코드입니다. 아래에는 잘못된 부분이 없으니, 위의 코드만 수정하세요.
 int main() {
-    int num_apple1 = 5;
-    int num_carrot1 = 1;
-    int k1 = 2;
-    int ret1 = solution(num_apple1, num_carrot1, k1);
-    
+    int mid_scores[] = {20, 50, 40};
+    int final_scores[] = {10, 50, 70};
+    int* ret = solution(mid_scores, 3, final_scores, 3);
+
     // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    printf("solution 함수의 반환 값은 %d 입니다.\n", ret1);
-    
-    int num_apple2 = 10;
-    int num_carrot2 = 5;
-    int k2 = 4;
-    int ret2 = solution(num_apple2, num_carrot2, k2);
-    
-    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    printf("solution 함수의 반환 값은 %d 입니다.\n", ret2);
+    printf("solution 함수의 반환 값은 {");
+    for(int i = 0; i < 2; i++){
+        if (i != 0) printf(", ");
+        printf("%d", ret[i]);
+    }
+    printf("} 입니다.\n");
 }
 
