@@ -2,70 +2,51 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-int func_a(int passed, int non_passed) {
-    return (passed > 1 && non_passed == 0);
-}
-
-int func_b(int scores[3]) {
+int func_a(int time_table[], int time_table_len) {
     int answer = 0;
-    if(scores[0] < 40) {
-        answer++;
-    }
-    if(scores[1] < 44) {
-        answer++;
-    }
-    if(scores[2] < 35) {
-        answer++;
+    for(int i = time_table_len-1; i >= 0; i--) {
+        if(time_table[i] == 1) {
+            answer = i;
+            break;
+        }
     }
     return answer;
 }
 
-int func_c(int scores[3]) {
+int func_b(int time_table[], int class1, int class2) {
     int answer = 0;
-    if(scores[0] >= 80) {
-        answer++;
-    }
-    if(scores[1] >= 88) {
-        answer++;
-    }
-    if(scores[2] >= 70) {
-        answer++;
+    for(int i = class1; i < class2; i++)
+        if(time_table[i] == 0)
+            answer++;
+    return answer;
+}
+
+int func_c(int time_table[], int time_table_len) {
+    int answer = 0;
+    for(int i = 0; i < time_table_len; i++) {
+        if(time_table[i] == 1) {
+            answer = i;
+            break;
+        }
     }
     return answer;
 }
 
-int solution(int scores[][3], int scores_len) {
+int solution(int time_table[], int time_table_len) {
     int answer = 0;
-    for(int i = 0; i<scores_len; i++) {
-        int passed = func_c(scores[i]);
-        int non_passed = func_b(scores[i]);
-        answer += func_a(passed, non_passed);
-    }
+    int first_class = func_c(time_table, time_table_len);
+    int last_class = func_a(time_table, time_table_len);
+    answer = func_b(time_table, first_class, last_class);
     return answer;
 }
 
 // 아래는 테스트케이스 출력을 해보기 위한 main 함수입니다.
 int main() {
-    int scores1[2][3] = {
-        {30, 40, 100},
-        {97, 88, 95}
-    };
-    int ret1 = solution(scores1, 2);
-    
-    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    printf("solution 함수의 반환 값은 %d 입니다.\n", ret1);
-    
-    int scores2[6][3] = {
-        {90, 88, 70},
-        {85, 90, 90},
-        {100, 100, 70},
-        {30, 90, 80},
-        {40, 10, 20},
-        {83, 88, 80}
-    };
-    int ret2 = solution(scores2, 6);
-    
-    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    printf("solution 함수의 반환 값은 %d 입니다.\n", ret2);
+	int time_table[] = {1, 1, 0, 0, 1, 0, 1, 0, 0, 0};
+	int time_table_len = 10;
+	int ret = solution(time_table, time_table_len);
+
+	// [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+	printf("solution 함수의 반환 값은 %d 입니다.\n", ret);
 }
 
